@@ -116,16 +116,24 @@ if uploaded_pdfs:
         extracted_size = bottom_details['size']
 
         inferred_scale = None
-        if filename_size and extracted_size and extracted_size[0] and extracted_size[1]:
-            width_ratio = filename_size[0] / extracted_size[0]
-            height_ratio = filename_size[1] / extracted_size[1]
-            alt_width_ratio = filename_size[1] / extracted_size[0]
-            alt_height_ratio = filename_size[0] / extracted_size[1]
+if (
+    filename_size and extracted_size and
+    filename_size[0] and filename_size[1] and
+    extracted_size[0] and extracted_size[1]
+):
+    try:
+        width_ratio = filename_size[0] / extracted_size[0]
+        height_ratio = filename_size[1] / extracted_size[1]
+        alt_width_ratio = filename_size[1] / extracted_size[0]
+        alt_height_ratio = filename_size[0] / extracted_size[1]
 
-            if abs(width_ratio - height_ratio) < 0.1:
-                inferred_scale = width_ratio * 100
-            elif abs(alt_width_ratio - alt_height_ratio) < 0.1:
-                inferred_scale = alt_width_ratio * 100
+        if abs(width_ratio - height_ratio) < 0.1:
+            inferred_scale = width_ratio * 100
+        elif abs(alt_width_ratio - alt_height_ratio) < 0.1:
+            inferred_scale = alt_width_ratio * 100
+    except (TypeError, ZeroDivisionError):
+        inferred_scale = None
+
 
         final_scale = inferred_scale or (bottom_details['declared_scale'] if bottom_details['declared_scale'] else 100)
 
