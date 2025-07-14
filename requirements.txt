@@ -1,4 +1,2 @@
 streamlit
 requests
-pdf2image
-pillow
