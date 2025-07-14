@@ -1,4 +1,4 @@
 streamlit
-pytesseract
+requests
+pdf2image
 pillow
-pymupdf
