@@ -116,10 +116,13 @@ if uploaded_pdfs:
         extracted_size = bottom_details['size']
 
         inferred_scale = None
+
 if (
-    filename_size and extracted_size and
-    filename_size[0] and filename_size[1] and
-    extracted_size[0] and extracted_size[1]
+    isinstance(filename_size, tuple) and
+    isinstance(extracted_size, tuple) and
+    all(x is not None for x in filename_size) and
+    all(x is not None for x in extracted_size) and
+    all(x != 0 for x in extracted_size)
 ):
     try:
         width_ratio = filename_size[0] / extracted_size[0]
